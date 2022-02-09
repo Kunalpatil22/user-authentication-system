@@ -14,6 +14,16 @@ const User = require("../model/User");
 const loginRoute = express.Router();
 
 // creating route
+loginRoute.get("/", (req, res, next) => {
+  res.sendFile("/public/login.html", { root: "./" }, (err) => {
+    if (err) {
+      next(err);
+    } else {
+      next();
+    }
+  });
+});
+
 loginRoute.post("/", async (req, res) => {
   // Getting client inputs
   const username = req.body.username;
@@ -31,8 +41,10 @@ loginRoute.post("/", async (req, res) => {
     // Matching the username and password
     if (await bcrypt.compare(password, user.password)) {
       const token = jwt.sign({ username, password }, SECRET_KEY);
-
-      res.send({ status: "success", message: "Logged In!", token: token });
+      // Sending cookie after successful login
+      res
+        .cookie("token", token)
+        .send({ status: "success", message: "Logged In" });
     } else {
       // Sending error if username and password did not match
       res.send({

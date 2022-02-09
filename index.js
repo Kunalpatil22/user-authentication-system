@@ -2,6 +2,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
+const cookieParser = require("cookie-parser");
 
 // Importing routes
 const loginRoute = require("./routes/loginRoute");
@@ -20,25 +21,31 @@ mongoose.connect(MONGO_URI, console.log("Database connection established!"));
 const app = express();
 
 // Adding Middlewares
+app.use(cookieParser());
 app.use(express.json());
 
 // Setting up Routes
-app.get("/", (req, res) => {
-  // Taking authorization token header
-  const bearer_header = req.header("Authorization");
-  if (!bearer_header) {
-    // Error if no token has been given
-    res.send({ status: "error", message: "no credentials sent!" });
+app.get("/", (req, res, next) => {
+  // Taking cookie token
+  const token = req.cookies.token;
+  if (!token) {
+    // redirecting if no token has been given
+    res.redirect("/login");
   } else {
-    // Splitting token header to extract only token
-    const token = bearer_header.split(" ")[1];
     try {
       // verifying token
       jwt.verify(token, SECRET_KEY);
-      res.send({ status: "success", message: "Access granted!" });
+      // Sending index file after successfully getting the token
+      res.sendFile("/public/index.html", { root: "./" }, (err) => {
+        if (err) {
+          next(err);
+        } else {
+          next();
+        }
+      });
     } catch (err) {
-      // catching error if the token is wrong
-      res.send({ status: "error", message: "Invalid Token!" });
+      // catching error and redirecting if the token is wrong
+      res.redirect("/login");
     }
   }
 });

@@ -39,8 +39,6 @@ SECRET_KEY = 'your_secret_key'
 
 #
 
-> Use API testing tools like [Postman](https://www.postman.com/) to test the authentication system.
-
 ### Run server
 
 ```
@@ -50,3 +48,17 @@ npm start
 > Server should be listening at http://localhost:3000
 
 #
+
+## miscellaneous warnings
+
+#
+
+If you are getting weak password warning on your chrome browser after login
+
+<div align="center">
+<br>
+<img src="images/chrome_warning.png" align="center">
+<br><br>
+</div>
+
+don't worry as it's just a feature of google chrome to periodically check for weak passwords.

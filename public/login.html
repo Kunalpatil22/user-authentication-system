@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <style>
+      body {
+        font-size: 2em;
+        margin: 0;
+      }
+
+      #status {
+        padding: 0.5em;
+        text-align: center;
+      }
+
+      .page-header {
+        text-align: center;
+      }
+
+      .login-form {
+        margin: 1em 1em;
+        text-align: center;
+      }
+
+      .login-form input {
+        font-size: 0.8em;
+      }
+
+      .login-form a {
+        display: block;
+        text-align: center;
+      }
+
+      .success {
+        background-color: rgb(44, 139, 44);
+        color: white;
+      }
+
+      .error {
+        background-color: rgb(189, 28, 28);
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="status"></div>
+    <h1 class="page-header">Login</h1>
+    <form id="loginForm" class="login-form">
+      <input type="text" id="username" required />
+      <input type="password" id="password" required />
+      <input type="submit" value="Login" />
+      <a href="/register">Create new account</a>
+    </form>
+  </body>
+  <script>
+    async function postData(url, data) {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      return response.json();
+    }
+
+    document.querySelector("#loginForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const username = document.querySelector("#username").value;
+      const password = document.querySelector("#password").value;
+
+      postData("/login", { username, password })
+        .then((data) => {
+          const status = document.querySelector("#status");
+          status.innerText = data.message;
+          status.className = data.status;
+        })
+        .then(() => {
+          location.assign("/");
+        });
+    });
+  </script>
+</html>

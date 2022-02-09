@@ -9,6 +9,16 @@ const User = require("../model/User");
 const registerRoute = express.Router();
 
 // creating route
+registerRoute.get("/", (req, res, next) => {
+  res.sendFile("/public/register.html", { root: "./" }, (err) => {
+    if (err) {
+      next(err);
+    } else {
+      next();
+    }
+  });
+});
+
 registerRoute.post("/", async (req, res) => {
   // Getting client inputs
   let username = req.body.username;
