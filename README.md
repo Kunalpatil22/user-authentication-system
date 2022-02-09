@@ -4,8 +4,6 @@
 
 ## Usage
 
-#
-
 > Make sure you have [node.js](https://nodejs.org/en/) and [mongoDB](https://www.mongodb.com/) installed on your system (Alternatively, you can use [mongoDB Atlas](https://www.mongodb.com/atlas) as your database server)
 
 ### Clone repository
@@ -40,17 +38,3 @@ npm start
 ```
 
 > Server should be listening at http://localhost:3000
-
-## miscellaneous warnings
-
-#
-
-If you are getting weak password warning on your chrome browser after login
-
-<div align="center">
-<br>
-<img src="images/chrome_warning.png" align="center">
-<br><br>
-</div>
-
-don't worry as it's just a feature of google chrome to periodically check for weak passwords.
