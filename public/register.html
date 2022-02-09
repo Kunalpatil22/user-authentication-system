@@ -49,13 +49,31 @@
     <div id="status"></div>
     <h1 class="page-header">Register</h1>
     <form id="registerForm" class="register-form">
-      <input type="text" id="username" required />
-      <input type="password" id="password" required />
+      <input type="text" id="username" required placeholder="Enter username" />
+      <input
+        type="password"
+        id="password"
+        required
+        placeholder="Enter password"
+      />
       <input type="submit" value="Register" />
+      <br /><br />
       <a href="/login">Already have an account?</a>
     </form>
   </body>
   <script>
+    function clearMessage() {
+      const status = document.querySelector("#status");
+      status.innerText = "";
+      status.className = "";
+    }
+
+    function wait() {
+      const status = document.querySelector("#status");
+      status.innerText = "Please wait...";
+      status.className = "success";
+    }
+
     async function postData(url, data) {
       const response = await fetch(url, {
         method: "POST",
@@ -71,10 +89,14 @@
       const username = document.querySelector("#username").value;
       const password = document.querySelector("#password").value;
 
+      wait();
+
       postData("/register", { username, password }).then((data) => {
         const status = document.querySelector("#status");
         status.innerText = data.message;
         status.className = data.status;
+
+        setTimeout(clearMessage, 3000);
       });
     });
   </script>

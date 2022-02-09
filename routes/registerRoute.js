@@ -19,14 +19,19 @@ registerRoute.get("/", (req, res, next) => {
   });
 });
 
-registerRoute.post("/", async (req, res) => {
+registerRoute.post("/", async (req, res, next) => {
   // Getting client inputs
   let username = req.body.username;
   let password = req.body.password;
-  if (password.length < 5) {
+  if (username.length < 5) {
     res.send({
       status: "error",
-      message: "password should be more than 5 characters long",
+      message: "username should be atleast 5 characters long",
+    });
+  } else if (password.length < 10) {
+    res.send({
+      status: "error",
+      message: "username should be more than 10 characters long",
     });
   } else {
     // Hashing password before storing
