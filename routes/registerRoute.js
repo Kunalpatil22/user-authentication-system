@@ -28,10 +28,10 @@ registerRoute.post("/", async (req, res, next) => {
       status: "error",
       message: "username should be atleast 5 characters long",
     });
-  } else if (password.length < 10) {
+  } else if (password.length < 8) {
     res.send({
       status: "error",
-      message: "username should be more than 10 characters long",
+      message: "password should be more than 10 characters long",
     });
   } else {
     // Hashing password before storing
